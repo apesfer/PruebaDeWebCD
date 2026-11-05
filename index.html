@@ -55,6 +55,22 @@
             <h2>Jugadores destacados</h2><br>
             <div class="cards" id="feat-users"></div>
         </section>
+        <section>
+            <h2>Lo que dicen los jugadores</h2><span class="mut">Opiniones de ejemplo de la versión demo</span><br><br>
+            <div class="cards">
+                <div class="pc">«Encontré a mi dúo de Valorant en un solo día.»<span class="mut">— NovaStrike</span></div>
+                <div class="pc">«Por fin alguien que juega a mi misma hora.»<span class="mut">— PixelWitch</span></div>
+                <div class="pc">«Buen rollo, cero toxicidad y partidas a mi medida.»<span class="mut">— CozyKraken</span></div>
+            </div>
+        </section>
+        <section>
+            <h2>Preguntas frecuentes</h2><br>
+            <div class="cards">
+                <details class="pc"><summary>¿Cómo se calcula la compatibilidad?</summary><span class="mut">Juegos 35%, horarios 30%, estilo 15%, plataforma 10% e idiomas 10%.</span></details>
+                <details class="pc"><summary>¿Los mensajes son reales?</summary><span class="mut">En esta demo se guardan solo en tu navegador y los jugadores son bots.</span></details>
+                <details class="pc"><summary>¿Puedo cambiar mi foto?</summary><span class="mut">Sí, desde el menú de tu avatar o desde tu perfil.</span></details>
+            </div>
+        </section>
         <section id="auth">
             <div class="auth">
                 <h2 id="at">Iniciar sesión</h2><input id="un" class="hide" placeholder="Nombre de usuario"><input
@@ -76,10 +92,11 @@
     <script>
         const rangos = { Silver: 'Plata', Gold: 'Oro', Platinum: 'Platino', Diamond: 'Diamante', Master: 'Maestro', Immortal: 'Inmortal' };
         document.getElementById('feat-users').innerHTML = USERS.slice(0, 4).map(u => `<div class="pc"><div class="row"><div class="av on" style="background:linear-gradient(135deg,${u.c})">${u.name[0]}</div><b>${u.name}</b></div><span class="mut">${rangos[u.rank] || u.rank} · ${u.games.join(', ')}</span></div>`).join('');
-        if (Auth.user()) location.hash = ''; let reg = false; const $ = i => document.getElementById(i);
+        if (Auth.user()) { const b = document.querySelector('nav .btn'); b.textContent = 'Ir a la app'; b.href = 'app.html'; } let reg = false; const $ = i => document.getElementById(i);
         function mode(r) { reg = r; $('at').textContent = r ? 'Crear cuenta' : 'Iniciar sesión'; $('go').textContent = r ? 'Registrarse' : 'Iniciar sesión'; $('un').classList.toggle('hide', !r); $('pw2').classList.toggle('hide', !r); $('sw').textContent = r ? '¿Ya tienes cuenta? Inicia sesión' : 'Crear cuenta' }
         $('sw').onclick = e => { e.preventDefault(); mode(!reg) };
         $('fg').onclick = async e => { e.preventDefault(); $('er').textContent = await Auth.recover($('em').value) };
+        document.querySelectorAll('.auth input').forEach(i => i.onkeydown = e => { if (e.key === 'Enter') $('go').click() });
         $('go').onclick = async () => { const er = reg ? await Auth.register($('un').value, $('em').value, $('pw').value, $('pw2').value) : await Auth.login($('em').value, $('pw').value); if (er) $('er').textContent = er; else location.href = 'app.html' };
     </script>
 </body>
