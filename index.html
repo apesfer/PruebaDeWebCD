@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>TIME2PLAY — Nunca juegues solo otra vez</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <div class="lp">
+        <nav>
+            <div class="logo"><i>⏱</i>TIME2PLAY</div><span class="sp"></span><a href="#how">Cómo funciona</a><a
+                href="#feat">Características</a><a href="#auth" class="btn sm">Iniciar sesión</a>
+        </nav>
+        <div class="hd"><span class="tag g">Tu tiempo. Tus juegos. Tu gente.</span>
+            <h1>Nunca juegues solo otra vez.</h1>
+            <p>Encuentra jugadores que compartan tus juegos, tu horario y tu forma de jugar.</p><a href="#auth"
+                class="btn">ENCUENTRA A TU EQUIPO</a> <a href="#how" class="btn ghost">EXPLORA TIME2PLAY</a>
+        </div>
+        <section id="how">
+            <h2>Cómo funciona</h2><br>
+            <div class="cards">
+                <div class="pc">
+                    <h3>1 · Crea tu perfil</h3><span class="mut">Elige juegos, plataformas, idiomas y estilo de
+                        juego.</span>
+                </div>
+                <div class="pc">
+                    <h3>2 · Define tu horario</h3><span class="mut">Marca los horarios libres que tienes cada
+                        semana.</span>
+                </div>
+                <div class="pc">
+                    <h3>3 · Encuentra y juega</h3><span class="mut">Puntuamos la compatibilidad para que conozcas al
+                        equipo adecuado.</span>
+                </div>
+            </div>
+        </section>
+        <section id="feat">
+            <h2>Características</h2><br>
+            <div class="cards">
+                <div class="pc">🎯 Puntuación de compatibilidad (juegos 35%, horario 30%, estilo 15%, plataforma 10%,
+                    idioma 10%)
+                </div>
+                <div class="pc">💬 Chatea con tus coincidencias</div>
+                <div class="pc">🗓 Planificador de disponibilidad semanal</div>
+                <div class="pc">🎮 Gestor de juegos favoritos</div>
+            </div>
+        </section>
+        <section>
+            <h2>Jugadores destacados</h2><br>
+            <div class="cards" id="feat-users"></div>
+        </section>
+        <section id="auth">
+            <div class="auth">
+                <h2 id="at">Iniciar sesión</h2><input id="un" class="hide" placeholder="Nombre de usuario"><input
+                    id="em" type="email" placeholder="Correo electrónico"><input id="pw" type="password"
+                    placeholder="Contraseña"><input id="pw2" class="hide" type="password"
+                    placeholder="Confirmar contraseña">
+                <div class="err" id="er"></div><button class="btn" id="go">Iniciar sesión</button>
+                <div class="row"><a href="#" id="sw" class="mut">Crear cuenta</a><span class="sp"></span><a href="#"
+                        id="fg" class="mut">¿Olvidaste tu contraseña?</a></div><button class="btn ghost" disabled>Google
+                    (próximamente)</button><button class="btn ghost" disabled>Discord (próximamente)</button>
+                <p class="mut">Modo demo: los datos se quedan solo en este navegador.</p>
+            </div>
+        </section>
+        <footer style="padding:24px;text-align:center" class="mut">© 2026 TIME2PLAY — Tu tiempo. Tus juegos. Tu
+            gente.</footer>
+    </div>
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        const rangos = { Silver: 'Plata', Gold: 'Oro', Platinum: 'Platino', Diamond: 'Diamante', Master: 'Maestro', Immortal: 'Inmortal' };
+        document.getElementById('feat-users').innerHTML = USERS.slice(0, 4).map(u => `<div class="pc"><div class="row"><div class="av on" style="background:linear-gradient(135deg,${u.c})">${u.name[0]}</div><b>${u.name}</b></div><span class="mut">${rangos[u.rank] || u.rank} · ${u.games.join(', ')}</span></div>`).join('');
+        if (Auth.user()) location.hash = ''; let reg = false; const $ = i => document.getElementById(i);
+        function mode(r) { reg = r; $('at').textContent = r ? 'Crear cuenta' : 'Iniciar sesión'; $('go').textContent = r ? 'Registrarse' : 'Iniciar sesión'; $('un').classList.toggle('hide', !r); $('pw2').classList.toggle('hide', !r); $('sw').textContent = r ? '¿Ya tienes cuenta? Inicia sesión' : 'Crear cuenta' }
+        $('sw').onclick = e => { e.preventDefault(); mode(!reg) };
+        $('fg').onclick = async e => { e.preventDefault(); $('er').textContent = await Auth.recover($('em').value) };
+        $('go').onclick = async () => { const er = reg ? await Auth.register($('un').value, $('em').value, $('pw').value, $('pw2').value) : await Auth.login($('em').value, $('pw').value); if (er) $('er').textContent = er; else location.href = 'app.html' };
+    </script>
+</body>
+
+</html>
