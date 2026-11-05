@@ -683,3 +683,4 @@ body.light .btn:not(.ghost),body.light .sl.on,body.light .m.me,body.light .side 
 .ov{position:fixed;inset:0;background:#000b;display:grid;place-items:center;z-index:120}.mdl{width:min(420px,92vw);display:grid;gap:10px}
 .dc{max-width:520px;margin:0 auto}.dcard .bn{height:110px;margin:-18px -18px 0;border-radius:20px 20px 0 0}
 details.pc summary{cursor:pointer;font-weight:600}
+.eg{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;max-height:48vh;overflow:auto}.eg span{font-size:22px;text-align:center;cursor:pointer;border-radius:8px;padding:3px}.eg span:hover{background:var(--p2)}.mdl{width:min(440px,94vw)}
